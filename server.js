@@ -1,0 +1,1 @@
+import express from 'express';import path from 'node:path';import {fileURLToPath} from 'node:url';const app=express();const dir=path.dirname(fileURLToPath(import.meta.url));app.use(express.static(dir));app.get('/api/health',(_q,s)=>s.json({status:'online',videoProvider:'not-connected'}));app.listen(process.env.PORT||3000,()=>console.log('Story Verse Film Studio running'));

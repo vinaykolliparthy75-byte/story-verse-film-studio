@@ -1,0 +1,43 @@
+STORY VERSE FILM STUDIO — Cloudflare Pages + Kling backend starter
+
+WHAT THIS PACKAGE DOES
+- Keeps the existing local-first story/character/scene/episode workspace.
+- Adds Cloudflare Pages Functions endpoints:
+  GET  /api/health
+  POST /api/kling/create
+  GET  /api/kling/status?id=TASK_ID
+- Kling 4.0 Flash text-to-video at 720p only. This is a real API request and can consume paid Kling API credits.
+- The API key is read only from the server environment variable KLING_API_KEY. It is never entered into browser code.
+
+IMPORTANT SAFETY / COST NOTES
+- Revoke any API key that was pasted into a chat or otherwise exposed. Create a replacement only when the adult account owner is ready to configure it privately.
+- Do not paste keys into chat, HTML, JavaScript, GitHub files, or screenshots.
+- The Generate button asks for confirmation before sending a billable request. The backend allows only 5, 10, 15, or 20 second requests, uses Kling 4.0 Flash at 720p, and does not auto-retry.
+- Check the current Kling API pricing and account balance before enabling generation. Flash rates/availability and billing can change.
+- Cloudflare Pages free hosting does not pay for Kling credits and does not guarantee unlimited compute or video generation.
+- An adult account owner should manage hosting/provider accounts, API credentials, billing, and any age/eligibility terms. Never bypass age checks.
+
+DEPLOYMENT OVERVIEW
+1. The static website and Functions folder must be deployed together as a Cloudflare Pages project. The folder to deploy is this package's story_verse_pwa folder.
+2. Create a Pages project from a Git repository or use a supported direct-upload workflow that includes the functions/ directory. A plain static drag-and-drop upload may not deploy Functions; verify the Functions routes after deployment.
+3. In the Pages project settings, add an encrypted secret named KLING_API_KEY. Paste the replacement key privately there, not into source files.
+4. Redeploy after adding the secret.
+5. Open /api/health on the deployed site. It should say videoProvider: Kling configured.
+6. Build a prompt in AI Video Studio. Select 5 seconds first, then use Generate 720p Flash Video only after the adult account owner has approved the possible charge.
+7. Use Check generation status until it reports succeeded. Download/save the returned video promptly; Kling result URLs may expire.
+
+CURRENT LIMITATIONS
+- This starter implements text-to-video only. It does not upload local character reference photos to Kling. Therefore the face-consistency workflow is not fully wired yet. Kling Omni/reference workflows require hosted image assets and the appropriate API payload.
+- Character photos in this app remain in this browser's local storage. They are not sent to Kling.
+- Project data remains local to this browser unless exported. There is no cloud database or multi-user login.
+- This package has not been deployed to a public URL. Deployment requires the site owner to use their own eligible hosting account.
+
+OFFICIAL DOCUMENTATION
+Kling Flash text-to-video and task query:
+https://kling.ai/document-api/api/video/4-0-flash/text-to-video
+Kling quick start and API key handling:
+https://kling.ai/document-api/guides/get-started/quick-start
+Cloudflare Pages Functions:
+https://developers.cloudflare.com/pages/functions/
+Cloudflare Pages limits:
+https://developers.cloudflare.com/pages/platform/limits/
